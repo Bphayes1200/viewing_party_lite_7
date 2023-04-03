@@ -39,5 +39,16 @@ RSpec.describe "'/register'", type: :feature do
 
       click_button("Create New User")
     end
+
+    it "doesn't create a new user if passwords are not matching" do 
+      fill_in :name, with: "John"
+      fill_in :email, with: "bob123@example.com" 
+      fill_in :password, with: "123"
+      fill_in :password_confirmation, with: "234"
+
+      click_button("Create New User")
+
+      expect(page).to have_content( "Password confirmation doesn't match Password")
+    end
   end
 end
