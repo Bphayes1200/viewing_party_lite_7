@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   get '/register', to: 'users#new'
   post '/register', to: 'users#create'
-
+  get "/login", to: "users#login_form"
+  post "/login", to: "users#login"
   resources :users, only: [:show] do
     resources :movies, only: [:show] do
       resources :viewing_parties, only: %i[new create]
@@ -21,4 +22,5 @@ Rails.application.routes.draw do
   get "/users/:id/discover", to: "user_discovers#index"
 
   get "/users/:id/movies", to: "user_movies#index"
+
 end
