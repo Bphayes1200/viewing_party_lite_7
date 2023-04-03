@@ -18,4 +18,15 @@ RSpec.describe "Login Form" do
 
     expect(current_path).to eq("/users/#{@user.id}")
   end
+
+  it "will fail to log in if credientials are not met" do 
+    fill_in :email, with: @user.email
+    fill_in :password, with: "HI"
+
+    click_on "Log In"
+    
+    expect(current_path).to eq("/login")
+    expect(page).to have_content("Sorry, your credentials are bad.")
+    
+  end
 end

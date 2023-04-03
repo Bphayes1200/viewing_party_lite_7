@@ -31,7 +31,7 @@ class UsersController < ApplicationController
     if user.authenticate(params[:password])
       redirect_to "/users/#{user.id}"
     else 
-      flash[:alert] = user.errors.full_messages.join(", ")
+      flash[:error] = "Sorry, your credentials are bad."
       render :login_form
     end
   end
