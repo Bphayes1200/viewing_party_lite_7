@@ -74,4 +74,18 @@ RSpec.describe 'landing page' do
     expect(page).to_not have_content(@user1.name)
     expect(page).to_not have_content(@user2.name)
   end
+
+  it "will show a list of existing users emails if a registered user visits landing page" do 
+    click_button "Login"
+
+    fill_in :email, with: @user1.email
+    fill_in :password, with: @user1.password
+    
+    click_on "Log In"
+
+    visit "/"
+
+    expect(page).to have_content(@user1.email)
+    expect(page).to have_content(@user2.email)
+  end
 end
