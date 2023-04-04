@@ -1,12 +1,12 @@
 <h1>Welcome to Viewing Party!</h1>
 <% if current_user %>
   <%= button_to "Log Out", "/logout", method: :delete%>
+  <% @users.each do |user| %>
+    <div id="user_names<%= user.id%>">
+      <p><%= link_to user.name, "/users/#{user.id}" %></p>
+    </div>
+  <% end %>
 <% else %>
   <%= button_to "Login", "/login", method: :get %>
-<% end %>
-<p><%= button_to "Register New User", "/register" %></p>
-<% @users.each do |user| %>
-  <div id="user_names<%= user.id%>">
-    <p><%= link_to user.name, "/users/#{user.id}" %></p>
-  </div>
+  <p><%= button_to "Register New User", "/register" %></p>
 <% end %>

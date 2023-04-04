@@ -31,8 +31,8 @@ class UsersController < ApplicationController
     user = User.find_by(email: params[:email])
     if user.authenticate(params[:password])
       session[:user_id] = user.id
-      if user.default?
-      redirect_to "/users/#{user.id}"
+      if user.registered?
+        redirect_to "/users/#{user.id}"
       end 
     else 
       flash[:error] = "Sorry, your credentials are bad."
