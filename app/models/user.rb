@@ -6,4 +6,6 @@ class User < ApplicationRecord
   has_secure_password
   has_many :user_parties
   has_many :viewing_parties, through: :user_parties
+
+  enum role: %w(default registered admin)
 end

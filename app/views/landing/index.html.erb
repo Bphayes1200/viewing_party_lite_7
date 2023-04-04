@@ -1,5 +1,9 @@
 <h1>Welcome to Viewing Party!</h1>
-<p><%= button_to "Login", "/login", method: :get %></p>
+<% if current_user %>
+  <%= button_to "Log Out", "/logout", method: :delete%>
+<% else %>
+  <%= button_to "Login", "/login", method: :get %>
+<% end %>
 <p><%= button_to "Register New User", "/register" %></p>
 <% @users.each do |user| %>
   <div id="user_names<%= user.id%>">

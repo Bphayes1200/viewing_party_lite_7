@@ -24,9 +24,8 @@ RSpec.describe "Login Form" do
     fill_in :password, with: "HI"
 
     click_on "Log In"
-    
+
     expect(current_path).to eq("/login")
     expect(page).to have_content("Sorry, your credentials are bad.")
-    
   end
 end
