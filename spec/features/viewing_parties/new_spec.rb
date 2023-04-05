@@ -12,6 +12,15 @@ RSpec.describe 'new viewing party page' do
       .to_return(status: 200, body: json_response, headers: {})
 
     @movie = Movie.new(JSON.parse(json_response, symbolize_names: true))
+
+    visit "/"
+
+    click_button "Login"
+
+    fill_in :email, with: @user_1.email
+    fill_in :password, with: @user_1.password
+    
+    click_on "Log In"
   end
 
   it 'displays the movie title' do
@@ -50,5 +59,18 @@ RSpec.describe 'new viewing party page' do
     end
 
     expect(current_path).to eq("/users/#{@user_1.id}")
+  end
+
+  it "won't allow you to create a new viewing party if the user is not logged in" do 
+    visit "/"
+
+    click_on "Log Out"
+
+    visit "/users/#{@user_1.id}/movies/#{@movie.id}"
+
+    click_button "Create Party"
+
+    expect(current_path).to eq("/users/#{@user_1.id}/movies/#{@movie.id}")
+    expect(page).to have_content("You must be logged in or registered to create a viewing party")
   end
 end
