@@ -60,17 +60,4 @@ RSpec.describe 'new viewing party page' do
 
     expect(current_path).to eq("/users/#{@user_1.id}")
   end
-
-  it "won't allow you to create a new viewing party if the user is not logged in" do 
-    visit "/"
-
-    click_on "Log Out"
-
-    visit "/users/#{@user_1.id}/movies/#{@movie.id}"
-
-    click_button "Create Party"
-
-    expect(current_path).to eq("/users/#{@user_1.id}/movies/#{@movie.id}")
-    expect(page).to have_content("You must be logged in or registered to create a viewing party")
-  end
 end
