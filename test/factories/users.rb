@@ -4,5 +4,6 @@ FactoryBot.define do
     email { Faker::Internet.email  }
     password { "Password123"}
     password_confirmation { "Password123"}
+    role { 1 } 
   end
 end

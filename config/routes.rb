@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   post '/register', to: 'users#create'
   get "/login", to: "users#login_form"
   post "/login", to: "users#login"
+  delete "/logout", to: "users#logout"
   resources :users, only: [:show] do
     resources :movies, only: [:show] do
       resources :viewing_parties, only: %i[new create]

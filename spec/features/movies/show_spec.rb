@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe 'movies show page' do
   before(:each) do
     @user_1 = create(:user)
-    @party1 = create(:viewing_party)
-    @party2 = create(:viewing_party)
+    @party1 = create(:viewing_party, movie_id: 238, host_id: @user_1.id)
+    @party2 = create(:viewing_party, movie_id: 238, host_id: @user_1.id)
     create(:user_party, user: @user_1, viewing_party: @party1)
     create(:user_party, user: @user_1, viewing_party: @party2)
 
@@ -90,5 +90,27 @@ RSpec.describe 'movies show page' do
         expect(page).to have_content("Total Reviews: 2")
       end
     expect(page).to_not have_content("Author: jason")
+  end
+
+  it "won't allow you to create a new viewing party if the user is not logged in" do 
+    visit "/"
+    
+    click_on "Login"
+
+    fill_in :email, with: @user_1.email
+    fill_in :password, with: @user_1.password
+    
+    click_on "Log In"
+
+    visit "/"
+    
+    click_on "Log Out"
+
+    visit "/users/#{@user_1.id}/movies/#{@movie.id}"
+
+    click_link "Create Viewing Party"
+
+    expect(current_path).to eq("/users/#{@user_1.id}/movies/#{@movie.id}")
+    expect(page).to have_content("You must be logged in or registered to create a viewing party")
   end
 end
