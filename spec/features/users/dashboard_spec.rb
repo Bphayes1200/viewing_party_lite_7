@@ -23,6 +23,14 @@ RSpec.describe "User Dashboard" do
     @user_party_2 = UserParty.create!(user_id: @user_1.id, viewing_party_id: @viewing_party_2.id)
     @user_party_3 = UserParty.create!(user_id: @user_2.id, viewing_party_id: @viewing_party_2.id)
 
+    visit "/"
+    click_button "Login"
+
+    fill_in :email, with: @user_1.email
+    fill_in :password, with: @user_1.password
+    
+    click_on "Log In"
+
     visit "users/#{@user_1.id}"
   end
 
@@ -56,4 +64,14 @@ RSpec.describe "User Dashboard" do
   it 'the movie title is a link to the movies show page' do
     expect(page).to have_link("#{@movie_1.title}")
   end
+
+  it "won't let an unregistered or unauthorized user visit a dashboard" do 
+    visit "/"
+
+    click_on "Log Out"
+
+    visit "users/#{@user_1.id}"
+
+    expect(page).to have_content("You must be logged in or registered to view your show page")
+  end 
 end

@@ -1,12 +1,18 @@
 class UsersController < ApplicationController
 
   def show
-    @user = User.find(params[:id])
-    @viewing_parties = @user.viewing_parties
-    @parties_info = []
-    @viewing_parties.each do |party|
-      @parties_info << party.get_data
-    end
+    # require 'pry'; binding.pry
+    if current_user
+      @user = User.find(params[:id])
+      @viewing_parties = @user.viewing_parties
+      @parties_info = []
+      @viewing_parties.each do |party|
+        @parties_info << party.get_data
+      end
+    else 
+      redirect_to '/'
+      flash[:error] = "You must be logged in or registered to view your show page" 
+    end 
   end
 
   def new
@@ -31,9 +37,7 @@ class UsersController < ApplicationController
     user = User.find_by(email: params[:email])
     if user.authenticate(params[:password])
       session[:user_id] = user.id
-      if user.registered?
         redirect_to "/users/#{user.id}"
-      end 
     else 
       flash[:error] = "Sorry, your credentials are bad."
       render :login_form
